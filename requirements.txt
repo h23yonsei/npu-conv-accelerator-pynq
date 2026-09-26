@@ -1,0 +1,2 @@
+# Golden model, network validation and testbench vector generation (golden_model/, tools/)
+numpy>=1.24
