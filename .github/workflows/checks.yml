@@ -1,0 +1,24 @@
+name: checks
+
+# Re-runs every verification result in the repository on every push: the golden-model checks, the
+# test-vector regeneration, and both testbenches in Verilator.
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Verilator and NumPy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y verilator
+          pip install -r requirements.txt
+      - name: All checks
+        run: python tools/run_sims.py --sim verilator
